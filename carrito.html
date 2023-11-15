@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="css/bootstrap.css" />
   <!-- MDB -->
   <link rel="stylesheet" href="css/mdb.css" />
   <!-- Custom styles -->
@@ -21,7 +19,7 @@
 
 </head>
 
-<body onload="catalogoProductos()">
+<body onload="articulos()">
   <!--Main Navigation-->
   <header class="pb-5">
     <!-- Navbar -->
@@ -60,7 +58,7 @@
         <!-- Center elements -->
         <div class="p-3 order-lg-last col-lg-2 col-sm-8 col-8">
           <div class="d-flex float-end">
-            <a href="javascript:articulos()" class="rounded py-1 px-3 nav-link d-flex align-items-center">
+            <a href="carrito.html" class="rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank">
               <p id="carrito" class="mb-0 text-light"></p>
               <p class="fas fa-shopping-cart text-light position-relative fs-6">
                 <span id="articulos" class="badge badge-warning ms-2 position-absolute top-0 start-100 translate-middle rounded-circle  fw-bold">0</span>
@@ -85,83 +83,8 @@
     <!-- Navbar -->
   </header>
 
-  <!-- Feature -->
-  <section class="my-5 pt-5">
-    <div class="container text-light mt-5 mt-lg-0">
-      <div class="row gy-4">
-        <div class="col-lg-6">
-          <div class="card-banner bg-gray h-100"
-            style="
-            min-height: 200px;
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            background-repeat: no-repeat;
-            top: 50%;
-            background-image: url('img/navidad.jpg');">
-            <div class="p-3 p-lg-5" style="max-width: 70%;">
-              <h3 class="fw-bold">Los mejores productos y marcas en nuestra tienda con hasta 80% de descuento.</h3>
-              <p>Eso es cierto pero no siempre.</p>
-              <button class="btn btn-warning shadow-0" href="#"> Ver ofertas </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="row mb-3 mb-sm-4 g-3 g-sm-4">
-            <div class="col-6 d-flex">
-              <div class="card w-100 bg-primary" style="min-height: 200px;">
-                <div class="card-body">
-                  <h5 class="text-white">Videojuegos</h5>
-                  <p class="text-white-50">Nintendo Switch, Xbox, PlayStation y mas..</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-6 d-flex">
-              <div class="card w-100 bg-primary" style="min-height: 200px;">
-                <div class="card-body">
-                  <h5 class="text-white">Regalos para navidad</h5>
-                  <p class="text-white-50">Todo lo que necesitas para estas fiestas.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- row.// -->
-          <div class="card bg-success" style="min-height: 200px;">
-            <div class="card-body">
-              <h5 class="text-white">Compra artículos y acumula puntos de lealtad</h5>
-              <p class="text-white-50" style="max-width: 400px;">Sume puntas de lealtad y obtenga regalos gratis.
-                Estamos de fiesta por nuestro aniversario.</p>
-            </div>
-          </div>
-        </div>
-        <!-- col.// -->
-      </div>
-      <!-- row.// -->
-    </div>
-    <!-- container end.// -->
-  </section>
-  <!-- Feature -->
-  <!-- Products -->
-  <section id="productos"></section>
-
-  <section id="productosCarrito" class="container my-5 pt-5">
-    
-
-    <div class="toast-container p-3 bottom-0 start-50 translate-middle-x" id="sinCantidad" data-original-class="toast-container p-3">
-      <div class="toast fade hide">
-        <div class="toast-header">
-          <strong class="me-auto">Malwart</strong>
-        </div>
-        <div class="toast-body">
-          Eliminado:
-        </div>
-      </div>
-    </div>
-    <button type="button" class="btn btn-primary" id="sinCantidad">Show live toast</button>
-    
-  </section>
-
-
+<!-- Products -->
+  <section id="productosCarrito" class="my-5 pt-5"></section>
   <!-- Footer -->
   <footer class="text-center text-lg-start text-muted bg-primary mt-3">
     <!-- Section: Links  -->
@@ -254,8 +177,6 @@
   <!-- Footer -->
   <!-- MDB -->
   <script type="text/javascript" src="js/mdb.js"></script>
-   <!-- bootstrap -->
-   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- Custom scripts -->
   <script type="text/javascript" src="js/script.js"></script>
 </body>
