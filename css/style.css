@@ -6,3 +6,28 @@
 .icon-hover:hover i {
   color: #3b71ca !important;
 }
+
+.btnCarrito{
+  
+  gap: 12px;
+  flex-shrink: 0;
+  border-radius: 2000px;
+  border: 1.6px solid #000;
+  color:#000;
+  align-items: center; 
+}
+
+.btnEliminar{
+  
+  color: #F5222D;
+ font-weight: 400;
+ line-height: 160%; /* 22.4px */
+ text-decoration-line: underline;
+
+}
+
+.sinborde {
+  border: 0;
+  border-top: 1.6px solid #000;
+  border-bottom: 1.6px solid #000;
+}
