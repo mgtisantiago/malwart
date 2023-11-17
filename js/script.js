@@ -280,8 +280,6 @@ function agregar(clave) {
     carrito.innerHTML = totalCarrito;
     let cantitadArticulos = document.getElementById("articulos");
     cantitadArticulos.innerHTML = totalArticulos;
-
-    console.log(aCarrito);
 }
 
 function operaciones(clave, operacion, calcular, eliminar) {
@@ -294,15 +292,17 @@ function operaciones(clave, operacion, calcular, eliminar) {
     let mensaje = document.getElementById("mensaje");
     let restarCarrito="";
 
-    if (calcular == 1) {
-        operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
-    } else {
-        operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
-        operacion == 1 ? cantidadCarrito.value = parseFloat(cantidadCarrito.value) - 1 : cantidadCarrito.value = parseFloat(cantidadCarrito.value) + 1;
-        restarCarrito = cantidadCarrito.value;
+    switch(calcular){
+        case 1:
+            operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
+        break;
+        case 2:
+            operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
+            operacion == 1 ? cantidadCarrito.value = parseFloat(cantidadCarrito.value) - 1 : cantidadCarrito.value = parseFloat(cantidadCarrito.value) + 1;
+            restarCarrito = cantidadCarrito.value;
+        break;
     }
 
-   
     aCarrito.forEach((element, index) => {
 
         if (element.clave == clave) {
@@ -312,7 +312,6 @@ function operaciones(clave, operacion, calcular, eliminar) {
             }else if(eliminar == 1){
                 cantidad.value = 0;
                 cantidadCarrito.value = 0;
-                console.log("elimnar");
             }
 
             element.subtotal = parseFloat(cantidad.value) * parseFloat(element.precioFinal);
@@ -350,6 +349,7 @@ function operaciones(clave, operacion, calcular, eliminar) {
                     let articuloSinCantidad = document.getElementById(element.clave);
                     articuloSinCantidad.remove();
                 }
+                articulos();
             }
         }
     });
@@ -362,18 +362,76 @@ function operaciones(clave, operacion, calcular, eliminar) {
     carrito.innerHTML = totalCarrito;
     let cantitadArticulos = document.getElementById("articulos");
     cantitadArticulos.innerHTML = totalArticulos;
+
+    
 }
 
 function articulos() {
+
+    let productos = document.getElementById("productos");
+    productos.style.display = 'none';
+
+    let verificar = document.getElementById("carritoDeCompras");
+    let vacio="";
 
     let listaArticulos = document.getElementById("productosCarrito");
     let listaCarrito;
     listaArticulos.innerHTML="";
     aCarrito.sort();
-    
+   
+    if(Object.entries(aCarrito).length === 0){
+        vacio = `
+        <div class="container text-center">
+        <div class="my-4">
+          <div class="d-flex align-items-center">
+            <h1 class="me-3">Carrito</h1>
+          </div>
+          <div class="d-flex flex-row mb5 justify-content-center">
+            <div class="h-100 mt-3 pb-3">
+              <div class="d-flex flex-column align-items-center">
+                <img loading="lazy" src="img/empty-cart.svg?odnHeight=240&amp;odnWidth=200&amp;odnBg=ffffff" class="w-100 h-auto" alt="vaciar carrito" width="240" height="200">
+                <div class="tc">
+                  <span>
+                    <h3 class="fw-bold mb-1 mt-4">Es momento de comprar</h3>
+                    <h5 class="fw-bold mt-1 mb-3 lh-copy">Tu carrito está vacío</h5>
+                  </span>
+                  <div class="fs-5 mid-gray lh-copy">
+                    <div class="wrap">Llénalo con ahorros de estos departamentos.</div>
+                  </div>
+                  <div class="mt-2">
+                    <section>
+                      <div class="tex-center w-100">
+                        <div class="d-flex justify-content-center flex-wrap" style="column-gap: 1.4rem;">
+                          <a class="mb-3 btn btn-outline-dark" data-mdb-ripple-color="dark" href="javascript:verProductos()">Frutas y verduras</a>
+                          <a class="mb-3 btn btn-outline-dark" data-mdb-ripple-color="dark" href="javascript:verProductos()">Electrónica</a>
+                          <a class="mb-3 btn btn-outline-dark" data-mdb-ripple-color="dark" href="javascript:verProductos()">Promociones</a>
+                          <a class="mb-3 btn btn-outline-dark" data-mdb-ripple-color="dark" href="javascript:verProductos()">Inicio</a>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+      verificar.innerHTML=vacio;
+   }else{
+    vacio = `
+        <div class="container text-center">
+        <div class="my-4">
+          <div class="d-flex align-items-center justify-content-between">
+            <h1 class="me-3">Carrito</h1>
+            <a href="javascript:verProductos()" class="btn btn-primary btn-lg">Productos</a>
+          </div>
+        </div>
+      </div>`;
+      verificar.innerHTML=vacio;
+   }
+   verificar.style.display = 'block';
     aCarrito.forEach((productos) => {
         listaCarrito = `
-            
                 <div id="${productos.clave}" class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card my-2 shadow-0">
                         <a href="#" class="img-wrap">
@@ -419,6 +477,19 @@ function articulos() {
                     </div>
                 </div>`;
         listaArticulos.innerHTML += listaCarrito;
+        listaArticulos.style.display = 'block';
     });
+
+}
+
+function verProductos(){
+
+    let productos = document.getElementById("productos");
+    productos.style.display = 'block';
+
+    let carritoTitulo = document.getElementById("carritoDeCompras");
+    carritoTitulo.style.display = 'none';
+    let carrito = document.getElementById("productosCarrito");
+    carrito.style.display = 'none';
 
 }
