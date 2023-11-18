@@ -26,6 +26,10 @@ class Categoria {
             {
                 clave: 2,
                 nombre: "Navidad"
+            },
+            {
+                clave: 3,
+                nombre: "Videojuegos"
             }
         ];
         let aCategoria = [];
@@ -46,6 +50,7 @@ class Producto {
     descuento;
     precioFinal;
     nombre;
+    limite;
     categoria;
 
     constructor(argumentos = []) {
@@ -54,6 +59,7 @@ class Producto {
         this.descuento = argumentos['descuento'];
         this.precioFinal = argumentos['precioFinal'];
         this.nombre = argumentos['nombre'];
+        this.limite = argumentos['limite'];
         this.categoria = argumentos['categoria'];
     }
 
@@ -65,6 +71,7 @@ class Producto {
                 descuento: 5,
                 precio_final: 0,
                 nombre: "Manzana Gala",
+                limite: 10,
                 categoria: 1
             },
 
@@ -74,6 +81,7 @@ class Producto {
                 descuento: 0,
                 precio_final: 0,
                 nombre: "Platano Chiapas",
+                limite: 10,
                 categoria: 1
             },
 
@@ -83,33 +91,37 @@ class Producto {
                 descuento: 3,
                 precio_final: 0,
                 nombre: "Aguacate Hass",
+                limite: 10,
                 categoria: 1
             },
 
             {
                 clave: 4,
-                precio: 2.00,
+                precio: 10.00,
                 descuento: 0,
                 precio_final: 0,
                 nombre: "Espinaca Fresca",
+                limite: 5,
                 categoria: 1
             },
 
             {
                 clave: 5,
-                precio: 4500,
+                precio: 2000,
                 descuento: 1000,
                 precio_final: 0,
                 nombre: "Apple Watch SE GPS",
+                limite: 3,
                 categoria: 2
             },
 
             {
                 clave: 6,
-                precio: 25000,
+                precio: 5000,
                 descuento: 500,
                 precio_final: 0,
                 nombre: "Canon EOS Rebel T100",
+                limite: 1,
                 categoria: 2
             },
 
@@ -119,17 +131,61 @@ class Producto {
                 descuento: 700,
                 precio_final: 0,
                 nombre: "One Plus Nord N200",
+                limite: 2,
                 categoria: 2
             },
 
             {
                 clave: 8,
-                precio: 10000,
+                precio: 2000,
                 descuento: 0,
                 precio_final: 0,
                 nombre: "Contigo F16 FPV",
+                limite: 1,
                 categoria: 2
             },
+
+            {
+                clave: 9,
+                precio: 8000,
+                descuento: 0,
+                precio_final: 0,
+                nombre: "Nintendo Switch Oled",
+                limite: 3,
+                categoria: 3
+            },
+
+            {
+                clave: 10,
+                precio: 5000,
+                descuento: 0,
+                precio_final: 0,
+                nombre: "Xbox Series S",
+                limite: 3,
+                categoria: 3
+            },
+
+            {
+                clave: 11,
+                precio: 9000,
+                descuento: 0,
+                precio_final: 0,
+                nombre: "Plastation 5",
+                limite: 3,
+                categoria: 3
+            },
+
+            {
+                clave: 12,
+                precio: 9000,
+                descuento: 0,
+                precio_final: 0,
+                nombre: "Xbox",
+                limite: 3,
+                categoria: 3
+            },
+
+
 
         ];
         let aProductos = [];
@@ -156,6 +212,7 @@ class Carrito {
     descuento;
     precioFinal;
     nombre;
+    limite;
     categoria;
     subtotal;
     articulos;
@@ -166,6 +223,7 @@ class Carrito {
         this.descuento = argumentos['descuento'];
         this.precioFinal = argumentos['precioFinal'];
         this.nombre = argumentos['nombre'];
+        this.limite = argumentos['limite'];
         this.categoria = argumentos['categoria'];
         this.subtotal = 0;
         this.articulos = 0;
@@ -244,6 +302,8 @@ function catalogoProductos() {
         productos.innerHTML += listaCategoria + listaProductos;
     });
 
+    productos.focus();
+
 }
 
 function agregar(clave) {
@@ -290,57 +350,74 @@ function operaciones(clave, operacion, calcular, eliminar) {
     let cantidadCarrito = document.getElementById("articulos-" + clave);
     let botonAgregar = document.getElementById("btnAgregar-" + clave);
     let mensaje = document.getElementById("mensaje");
-    let restarCarrito="";
+    let restarCarrito = "";
+    let limiteProductos = 0;
 
-    switch(calcular){
+    switch (calcular) {
         case 1:
             operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
-        break;
+            limiteProductos = cantidad.value;
+            break;
         case 2:
             operacion == 1 ? cantidad.value = parseFloat(cantidad.value) - 1 : cantidad.value = parseFloat(cantidad.value) + 1;
             operacion == 1 ? cantidadCarrito.value = parseFloat(cantidadCarrito.value) - 1 : cantidadCarrito.value = parseFloat(cantidadCarrito.value) + 1;
             restarCarrito = cantidadCarrito.value;
-        break;
+            limiteProductos = cantidadCarrito.value;
+            break;
     }
 
     aCarrito.forEach((element, index) => {
-
         if (element.clave == clave) {
-
-            if (calcular == 2 && eliminar == 0 && restarCarrito == 0 ) {
+            if (calcular == 2 && eliminar == 0 && restarCarrito == 0) {
                 cantidad.value = 0;
-            }else if(eliminar == 1){
+            } else if (eliminar == 1) {
                 cantidad.value = 0;
                 cantidadCarrito.value = 0;
             }
+            if (limiteProductos >= element.limite) {
+                cantidad.value = element.limite;
+                element.subtotal = element.limite * parseFloat(element.precioFinal);
+                element.articulos = element.limite;
+                mensaje.innerHTML = ` 
+                    <div id="sinCantidad" class="toast align-items-center text-bg-info border-0 position-fixed top-50 start-50 translate-middle p-3 text-light" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">Solamente puede elegir máximo <br/> <strong>${element.limite} artículo(s)</strong> de ${element.nombre}</div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>`;
+                const toastLimite = document.getElementById('sinCantidad');
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLimite);
+                toastBootstrap.show();
 
-            element.subtotal = parseFloat(cantidad.value) * parseFloat(element.precioFinal);
-            element.articulos = parseFloat(cantidad.value);
-
+            } else {
+                element.subtotal = parseFloat(cantidad.value) * parseFloat(element.precioFinal);
+                element.articulos = parseFloat(cantidad.value);
+            }
             if (cantidad.value == 0) {
                 botonAgregar.innerHTML = ` 
-                            <a href="javascript:agregar(${clave})" class="btn btn-primary btn-lg btn-rounded px-3 my-3 pt-2 float-start icon-hover">
-                                <i class="fas fa-plus fa-sm px-1 text-light"></i> Agregar
-                            </a>`;
+                    <a href="javascript:agregar(${clave})" class="btn btn-primary btn-lg btn-rounded px-3 my-3 pt-2 float-start icon-hover">
+                        <i class="fas fa-plus fa-sm px-1 text-light"></i> Agregar
+                    </a>`;
                 eliminar == 0 && calcular == 1 ? aCarrito.splice(index, 1) : "";
                 element.articulos = parseFloat(cantidad.value);
             }
-
-            if(calcular==2){
-
-                element.subtotal = parseFloat(cantidadCarrito.value) * parseFloat(element.precioFinal);
-                element.articulos = parseFloat(cantidadCarrito.value);
-
+            if (calcular == 2) {
+                if (limiteProductos >= element.limite) {
+                    cantidadCarrito.value = element.limite;
+                    element.subtotal = element.limite * parseFloat(element.precioFinal);
+                    element.articulos = element.limite;
+                } else {
+                    element.subtotal = parseFloat(cantidadCarrito.value) * parseFloat(element.precioFinal);
+                    element.articulos = parseFloat(cantidadCarrito.value);
+                }
                 if (cantidadCarrito.value == 0) {
                     mensaje.innerHTML = ` 
-                            <div id="sinCantidad" class="toast align-items-center text-bg-success border-0 position-fixed top-50 start-50 translate-middle p-3 text-light" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="d-flex">
-                                    <div class="toast-body">
-                                        Eliminado: ${element.nombre}
-                                    </div>
-                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                                </div>
-                            </div>`;
+                        <div id="sinCantidad" class="toast align-items-center text-bg-success border-0 position-fixed top-50 start-50 translate-middle p-3 text-light" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">Eliminado: ${element.nombre}</div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>`;
                     const toastSinCantidad = document.getElementById('sinCantidad');
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastSinCantidad);
                     toastBootstrap.show();
@@ -362,8 +439,6 @@ function operaciones(clave, operacion, calcular, eliminar) {
     carrito.innerHTML = totalCarrito;
     let cantitadArticulos = document.getElementById("articulos");
     cantitadArticulos.innerHTML = totalArticulos;
-
-    
 }
 
 function articulos() {
@@ -372,14 +447,14 @@ function articulos() {
     productos.style.display = 'none';
 
     let verificar = document.getElementById("carritoDeCompras");
-    let vacio="";
+    let vacio = "";
 
     let listaArticulos = document.getElementById("productosCarrito");
     let listaCarrito;
-    listaArticulos.innerHTML="";
+    listaArticulos.innerHTML = "";
     aCarrito.sort();
-   
-    if(Object.entries(aCarrito).length === 0){
+
+    if (Object.entries(aCarrito).length === 0) {
         vacio = `
         <div class="container text-center">
         <div class="my-4">
@@ -416,9 +491,9 @@ function articulos() {
           </div>
         </div>
       </div>`;
-      verificar.innerHTML=vacio;
-   }else{
-    vacio = `
+        verificar.innerHTML = vacio;
+    } else {
+        vacio = `
         <div class="container text-center">
         <div class="my-4">
           <div class="d-flex align-items-center justify-content-between">
@@ -427,9 +502,10 @@ function articulos() {
           </div>
         </div>
       </div>`;
-      verificar.innerHTML=vacio;
-   }
-   verificar.style.display = 'block';
+        verificar.innerHTML = vacio;
+    }
+    verificar.style.display = 'block';
+    verificar.focus();
     aCarrito.forEach((productos) => {
         listaCarrito = `
                 <div id="${productos.clave}" class="col-lg-4 col-md-6 col-sm-6">
@@ -482,13 +558,14 @@ function articulos() {
 
 }
 
-function verProductos(){
+function verProductos() {
 
     let productos = document.getElementById("productos");
     productos.style.display = 'block';
 
     let carritoTitulo = document.getElementById("carritoDeCompras");
     carritoTitulo.style.display = 'none';
+    carritoTitulo.focus();
     let carrito = document.getElementById("productosCarrito");
     carrito.style.display = 'none';
 
